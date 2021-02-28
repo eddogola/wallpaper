@@ -1,7 +1,6 @@
 package wallpaper
 
 import (
-	"io/ioutil"
 	"os"
 	"regexp"
 	"strings"
@@ -20,12 +19,12 @@ const (
 	UnsplashSecretKey = "UNSPLASH_SECRET_KEY"
 )
 
-func readAuthKeys(envFile string) (*UnsplashAuth, error) {
+func readAuthKeys(envData []byte) (*UnsplashAuth, error) {
 	var unsplashAccessKey string
 	var unsplashSecretKey string
 
 	// read auth keys from environment if no .env file is provided
-	if envFile == "" {
+	if len(envData) == 0 {
 		unsplashAccessKey = os.Getenv(UnsplashAccessKey)
 		unsplashSecretKey = os.Getenv(UnsplashSecretKey)
 		if unsplashAccessKey == "" || unsplashSecretKey == "" {
@@ -40,11 +39,7 @@ func readAuthKeys(envFile string) (*UnsplashAuth, error) {
 	}
 
 	// parse environment values from .env file to UnsplashAuth struct
-	data, err := ioutil.ReadFile(envFile)
-	if err != nil {
-		return nil, err
-	}
-	lines := strings.Split(string(data), "\n")
+	lines := strings.Split(string(envData), "\n")
 	regex := regexp.MustCompile(`(?:\w+[^=])(?:=)([a-zA-Z0-9_-]+)`)
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
@@ -55,5 +50,5 @@ func readAuthKeys(envFile string) (*UnsplashAuth, error) {
 			unsplashSecretKey = value
 		}
 	}
-	return &UnsplashAuth{AccessKey: unsplashAccessKey, SecretKey: unsplashSecretKey}, err
+	return &UnsplashAuth{AccessKey: unsplashAccessKey, SecretKey: unsplashSecretKey}, nil
 }
