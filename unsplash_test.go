@@ -2,27 +2,61 @@ package wallpaper
 
 import (
 	"fmt"
+	"os"
+	"reflect"
 	"testing"
 )
 
 func TestUnsplashAuth(t *testing.T) {
+	uAccessKey := "-knJmOPLdhquiCDza-henc9esz9-GHNJLOPS567qaJ"
+	uSecretKey := "suhfjwehfKhJDAdjkd-afjuhfjqe99123nddfdfkafk"
+
 	t.Run("env file data provided", func(t *testing.T) {
-		uAccessKey := "-knJmOPLdhquiCDza-henc9esz9-GHNJLOPS567qaJ"
-		uSecretKey := "suhfjwehfKhJDAdjkd-afjuhfjqe99123nddfdfkafk"
 		want := &UnsplashAuth{
 			AccessKey: uAccessKey,
 			SecretKey: uSecretKey,
 		}
-		envData := fmt.Sprintf(`UNSPLASH_ACCESS_KEY=%v
-					UNSPLASH_SECRET_KEY=%v`, uAccessKey, uSecretKey)
+		envData := fmt.Sprintf(`export UNSPLASH_ACCESS_KEY=%v
+					export UNSPLASH_SECRET_KEY=%v`, uAccessKey, uSecretKey)
 		got, err := readAuthKeys([]byte(envData))
 
-		if err != nil {
-			t.Errorf("unexpected error: %v", err)
-		}
+		checkError(err, t)
 
-		if want.AccessKey != got.AccessKey || want.SecretKey != got.SecretKey {
+		if !reflect.DeepEqual(got, want) {
 			t.Errorf("got %v, wanted %v", got, want)
 		}
 	})
+
+	t.Run("env file provided but doesn't contain auth keys; env variables not set", func(t *testing.T) {
+		envData := ``
+		_, err := readAuthKeys([]byte(envData))
+		if err == nil {
+			t.Errorf("expected an error but got none")
+		}
+	})
+
+	t.Run("env file not provided, environment variables provided", func(t *testing.T) {
+		os.Setenv("UNSPLASH_ACCESS_KEY", uAccessKey)
+		os.Setenv("UNSPLASH_SECRET_KEY", uSecretKey)
+		want := &UnsplashAuth{
+			AccessKey: uAccessKey,
+			SecretKey: uSecretKey,
+		}
+
+		got, err := readAuthKeys([]byte(``))
+
+		checkError(err, t)
+
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v, wanted %v", got, want)
+		}
+	})
+}
+
+func checkError(err error, t *testing.T) {
+	t.Helper()
+	
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
 }

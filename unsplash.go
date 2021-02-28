@@ -1,6 +1,7 @@
 package wallpaper
 
 import (
+	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -20,15 +21,14 @@ const (
 )
 
 func readAuthKeys(envData []byte) (*UnsplashAuth, error) {
-	var unsplashAccessKey string
-	var unsplashSecretKey string
+	uAuth, err := parseEnvFileData(envData)
 
 	// read auth keys from environment if no .env file is provided
-	if len(envData) == 0 {
-		unsplashAccessKey = os.Getenv(UnsplashAccessKey)
-		unsplashSecretKey = os.Getenv(UnsplashSecretKey)
+	if err != nil {
+		unsplashAccessKey := os.Getenv(UnsplashAccessKey)
+		unsplashSecretKey := os.Getenv(UnsplashSecretKey)
 		if unsplashAccessKey == "" || unsplashSecretKey == "" {
-			return nil, errKeysNotInEnv
+			return nil, errKeysNotInEnvVars
 		}
 
 		uAuth := UnsplashAuth{
@@ -37,9 +37,20 @@ func readAuthKeys(envData []byte) (*UnsplashAuth, error) {
 		}
 		return &uAuth, nil
 	}
+	
+	return uAuth, nil
+}
 
-	// parse environment values from .env file to UnsplashAuth struct
-	lines := strings.Split(string(envData), "\n")
+
+// parse environment values from .env file to UnsplashAuth struct
+func parseEnvFileData(data []byte) (*UnsplashAuth, error) {
+	var unsplashAccessKey string
+	var unsplashSecretKey string
+
+	lines := strings.Split(string(data), "\n")
+	if len(lines) < 2 {
+		return nil, fmt.Errorf("lines in env data less than 2")
+	}
 	regex := regexp.MustCompile(`(?:\w+[^=])(?:=)([a-zA-Z0-9_-]+)`)
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
@@ -48,6 +59,8 @@ func readAuthKeys(envData []byte) (*UnsplashAuth, error) {
 			unsplashAccessKey = value
 		} else if strings.Contains(line, "SECRET") {
 			unsplashSecretKey = value
+		} else {
+			return nil, errKeysNotInEnvFile
 		}
 	}
 	return &UnsplashAuth{AccessKey: unsplashAccessKey, SecretKey: unsplashSecretKey}, nil
