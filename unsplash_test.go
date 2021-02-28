@@ -21,7 +21,7 @@ func TestUnsplashAuth(t *testing.T) {
 			t.Errorf("unexpected error: %v", err)
 		}
 
-		if want.AccessKey != got.AccessKey || want.SecretKey != got.SecretKeyerr {
+		if want.AccessKey != got.AccessKey || want.SecretKey != got.SecretKey {
 			t.Errorf("got %v, wanted %v", got, want)
 		}
 	})

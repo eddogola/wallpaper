@@ -13,9 +13,9 @@ type UnsplashAuth struct {
 }
 
 const (
-	// UnsplashAccessKey defines the key of the access key in the os environment
+	// UnsplashAccessKey defines the key of the access key environment variable
 	UnsplashAccessKey = "UNSPLASH_ACCESS_KEY"
-	// UnsplashSecretKey defines the key of the secret key in the os environment
+	// UnsplashSecretKey defines the key of the secret key environment variable
 	UnsplashSecretKey = "UNSPLASH_SECRET_KEY"
 )
 
