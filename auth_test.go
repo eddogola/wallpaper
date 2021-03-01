@@ -27,14 +27,6 @@ func TestUnsplashAuth(t *testing.T) {
 		}
 	})
 
-	t.Run("env file provided but doesn't contain auth keys; env variables not set", func(t *testing.T) {
-		envData := ``
-		_, err := ReadAuthKeys([]byte(envData))
-		if err == nil {
-			t.Errorf("expected an error but got none")
-		}
-	})
-
 	t.Run("env file not provided, environment variables provided", func(t *testing.T) {
 		os.Setenv("UNSPLASH_ACCESS_KEY", uAccessKey)
 		os.Setenv("UNSPLASH_SECRET_KEY", uSecretKey)
