@@ -18,7 +18,7 @@ func TestUnsplashAuth(t *testing.T) {
 		}
 		envData := fmt.Sprintf(`export UNSPLASH_ACCESS_KEY=%v
 					export UNSPLASH_SECRET_KEY=%v`, uAccessKey, uSecretKey)
-		got, err := readAuthKeys([]byte(envData))
+		got, err := ReadAuthKeys([]byte(envData))
 
 		checkError(err, t)
 
@@ -29,7 +29,7 @@ func TestUnsplashAuth(t *testing.T) {
 
 	t.Run("env file provided but doesn't contain auth keys; env variables not set", func(t *testing.T) {
 		envData := ``
-		_, err := readAuthKeys([]byte(envData))
+		_, err := ReadAuthKeys([]byte(envData))
 		if err == nil {
 			t.Errorf("expected an error but got none")
 		}
@@ -43,7 +43,7 @@ func TestUnsplashAuth(t *testing.T) {
 			SecretKey: uSecretKey,
 		}
 
-		got, err := readAuthKeys([]byte(``))
+		got, err := ReadAuthKeys([]byte(``))
 
 		checkError(err, t)
 
