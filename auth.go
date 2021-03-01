@@ -39,10 +39,9 @@ func ReadAuthKeys(envData []byte) (*UnsplashAuth, error) {
 		}
 		return &uAuth, nil
 	}
-	
+
 	return uAuth, nil
 }
-
 
 // parse environment values from .env file to UnsplashAuth struct
 func parseEnvFileData(data []byte) (*UnsplashAuth, error) {
