@@ -2,9 +2,11 @@ package wallpaper
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // Client defines methods to communicate with Unsplash's API
@@ -17,12 +19,13 @@ type Client struct {
 // Config defines settings used in accessing the API
 type Config struct {
 	ItemsPerPage  int  // 10 - 30
-	ContentFilter bool // to give flexibility in filtering content further; default is low
+	ContentFilter string // to give flexibility in filtering content further; default is low
 }
 
 // NewClient creates a new Client with provided authentication keys
 func NewClient(auth *UnsplashAuth) *Client {
-	return &Client{Auth: auth}
+	config := &Config{ItemsPerPage: 30, ContentFilter: "low"}
+	return &Client{Auth: auth, Config: config}
 }
 
 func (c *Client) getHTTP(ctx context.Context, link string) (*http.Response, error) {
@@ -40,6 +43,10 @@ func (c *Client) getHTTP(ctx context.Context, link string) (*http.Response, erro
 	req.Header.Set("Authorization", authorizationHeaderValue)
 	queryVars := req.URL.Query()
 	queryVars.Add("per_page", fmt.Sprint(c.Config.ItemsPerPage))
+
+	// filter only pictures with a landscape orientation
+	// where the query parameter is accepted
+	queryVars.Add("orientation", "landscape")
 	req.URL.RawQuery = queryVars.Encode()
 
 	resp, err := client.Do(req)
@@ -65,4 +72,95 @@ func (c *Client) getHTTPBodyBytes(ctx context.Context, link string) ([]byte, err
 	}
 
 	return data, nil
+}
+
+/*
+Client methods to get photos from Unsplash
+I will just work with the first page
+since, at least for the moment,
+I don't need all those photos.
+*/
+
+// GetFirstPagePhotos returns a list of all Photos from sorted by `latest`
+func (c *Client) GetFirstPagePhotos() ([]Photo, error) {
+	endPoint := "https://api.unsplash.com/photos"
+	data, err := c.getHTTPBodyBytes(context.Background(), endPoint)
+	if err != nil {
+		return nil, err
+	}
+
+	var photos []Photo
+	err = parseJSON(data, &photos)
+	if err != nil {
+		return nil, err
+	}
+
+	return photos, nil
+}
+
+// GetPhotosByUser returns a list of Photos uploaded by a specific user
+func (c *Client) GetPhotosByUser(username string) ([]Photo, error) {
+	endPoint := fmt.Sprintf("https://api.unsplash.com/%s/photos", username)
+	data, err := c.getHTTPBodyBytes(context.Background(), endPoint)
+	if err != nil {
+		return nil, err
+	}
+
+	var photos []Photo
+	err = parseJSON(data, &photos)
+	if err != nil {
+		return nil, err
+	}
+
+	return photos, nil
+}
+
+// GetPhotosBySearchQuery returns a list of Photo results for a search query
+func (c *Client) GetPhotosBySearchQuery(searchQuery string) ([]Photo, error) {
+	endPoint := "https://api.unsplash.com/search/photos"
+	url, err := url.Parse(endPoint)
+	if err != nil {
+		return nil, err
+	}
+
+	q := url.Query()
+	q.Add("content_filter", c.Config.ContentFilter)
+	q.Add("query", searchQuery)
+	url.RawQuery = q.Encode()
+
+	data, err := c.getHTTPBodyBytes(context.Background(), url.String())
+
+	var result SearchResult
+	err = parseJSON(data, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Results, nil
+}
+
+// GetPhotosByTopic returns a list of photos in the provided topic
+func (c *Client) GetPhotosByTopic(topic string) ([]Photo, error) {
+	endPoint := fmt.Sprintf("https://api.unsplash.com/topics/%s/photos", topic)
+	data, err := c.getHTTPBodyBytes(context.Background(), endPoint)
+	if err != nil {
+		return nil, err
+	}
+
+	var photos []Photo
+	err = parseJSON(data, &photos)
+	if err != nil {
+		return nil, err
+	}
+
+	return photos, nil
+}
+
+// utility function to parse json data to desired object
+func parseJSON(data []byte, desiredObject interface{}) error {
+	if err := json.Unmarshal(data, desiredObject); err != nil {
+		return fmt.Errorf("error parsing json data: %v", err)
+	}
+
+	return nil
 }
