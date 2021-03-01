@@ -143,3 +143,11 @@ type Topic struct {
 	CoverPhoto                  Photo   `json:"cover_photo"`
 	PreviewPhotos               []Photo `json:"preview_photos"`
 }
+
+// SearchResult defines the structure of the response gotten
+// after searching for a picture
+type SearchResult struct {
+	Total string `json:"total"`
+	TotalPages int `json:"total_pages"`
+	Results []Photo `json:"results"`
+}
