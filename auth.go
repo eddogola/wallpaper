@@ -1,4 +1,4 @@
-package wallpaper
+package wallpapr
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package wallpaper
+package wallpapr
 
 // User defines public fields Unsplash provides on a user
 type User struct {

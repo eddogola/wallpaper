@@ -1,4 +1,4 @@
-module github.com/eddogola/wallpaper
+module github.com/eddogola/wallpapr
 
 go 1.13
 
