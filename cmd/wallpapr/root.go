@@ -16,8 +16,8 @@ var rootCmd = &cobra.Command{
 	Use:   "wallpapr",
 	Short: "wallpapr sets a slideshow on the background of your desktop",
 	Long: `Wallpapr gets photos from Unsplash, based on your query - 
-	a certain user's photos, a topic's photos, a search query to unsplash, 
-	or the first page's photos.`,
+a certain user's photos, a topic's photos, a search query to unsplash, 
+or the first page's photos.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

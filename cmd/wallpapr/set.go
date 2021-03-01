@@ -6,7 +6,7 @@ import (
 
 var setCmd = &cobra.Command{
 	Use: "set",
-	Short: "sets the desktop background",
+	Short: "Sets the desktop background",
 	Example: "wallpapr set --search food --freq mins --time 15",
 	// Args: cobra.exactArgs(1),
 	// Run: func(cmd*cobra.Command, args []string) {
@@ -32,4 +32,6 @@ func init() {
 	setCmd.Flags().StringVarP(&search, "search", "s", "", "The search query whose results will provide wallpapers.")
 	setCmd.Flags().StringVarP(&freq, "freq", "f", "hours", "The frequency with which to change the wallpaper(mins, hours, days). Default is `hours`.")
 	setCmd.Flags().Float64Var(&time, "time", 20, "The time after which the wallpaper should change, in the given frequency. For example, --freq mins --time 10: the wallpaper will chnage every 10 minutes.")
+	
+	setCmd.
 }
