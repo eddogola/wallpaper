@@ -20,7 +20,9 @@ const (
 	UnsplashSecretKey = "UNSPLASH_SECRET_KEY"
 )
 
-func readAuthKeys(envData []byte) (*UnsplashAuth, error) {
+// ReadAuthKeys extracts authorization credentials and stores
+// them in an UnsplashAuth object
+func ReadAuthKeys(envData []byte) (*UnsplashAuth, error) {
 	uAuth, err := parseEnvFileData(envData)
 
 	// read auth keys from environment if no .env file is provided
