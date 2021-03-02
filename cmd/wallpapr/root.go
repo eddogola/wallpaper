@@ -9,7 +9,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile        string
+	envFile        string
+	envFileDefault = ".env"
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -18,9 +22,6 @@ var rootCmd = &cobra.Command{
 	Long: `Wallpapr gets photos from Unsplash, based on your query - 
 a certain user's photos, a topic's photos, a search query to unsplash, 
 or the first page's photos.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 func init() {
@@ -30,6 +31,8 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.wallpapr.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&envFile, "env", "e", envFileDefault, ".env file from which to load authentication keys.")
+	rootCmd.MarkPersistentFlagRequired("env")
 }
 
 // initConfig reads in config file and ENV variables if set.
