@@ -51,7 +51,7 @@ func (c *Client) getHTTP(ctx context.Context, link string) (*http.Response, erro
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("error making request %v", req)
+		return nil, fmt.Errorf("error making request %v", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, errUnexpectedStatusCode(resp.StatusCode)
@@ -154,6 +154,22 @@ func (c *Client) GetPhotosByTopic(topic string) ([]Photo, error) {
 	}
 
 	return photos, nil
+}
+
+// GetRandomPhoto gets a random picture from Unsplash
+func (c *Client) GetRandomPhoto() (Photo, error) {
+	endPoint := "https://api.unsplash.com/photos/random"
+	data, err := c.getHTTPBodyBytes(context.Background(), endPoint)
+	if err != nil {
+		return Photo{}, err
+	}
+
+	var pic Photo
+	err = parseJSON(data, &pic)
+	if err != nil {
+		return Photo{}, err
+	}
+	return pic, err	
 }
 
 // utility function to parse json data to desired object
