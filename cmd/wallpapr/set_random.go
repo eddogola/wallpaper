@@ -19,16 +19,16 @@ func getHomeDir() (string, error) {
 }
 
 var downloadSetCmd = cobra.Command{
-	Use:     "download",
+	Use:     "set-random",
 	Short:   "downloads a random photo, saves it in the provided directory & sets it as the desktop background",
-	Example: "wallpapr download -o picture.jpeg -l ~/Downloads/wallpapers",
+	Example: "wallpapr set-random -o picture.jpeg -l ~/Downloads/wallpapers",
 	Run: func(cmd *cobra.Command, args []string) {
 		//create `location` if it doesn't exist
 		if !fileExists(location) {
 			createDir(location)
 		}
 
-		err := downloadSet()
+		err := setRandom()
 		exitOnError(err)
 	},
 }
@@ -53,7 +53,7 @@ func init() {
 	downloadSetCmd.Flags().StringVarP(&location, "location", "l", defaultDlLocation, "specify the directory where to save downloaded files.")
 }
 
-func downloadSet() error {
+func setRandom() error {
 	pic, err := client.GetRandomPhoto()
 	if err != nil {
 		return err
