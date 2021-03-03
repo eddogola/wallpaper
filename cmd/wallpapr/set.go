@@ -11,6 +11,9 @@ import (
 var setCmd = &cobra.Command{
 	Use:     "set",
 	Short:   "Sets the desktop background",
+	Long: `Batch downloads several photos requested by the user(by search query, topic or Unsplash user).
+Starts a slideshow of photos in the photos' storage directory, with the photos changing after the specified
+duration`,
 	Example: "wallpapr set --search food --freq mins --time 15",
 	// Args: cobra.exactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
