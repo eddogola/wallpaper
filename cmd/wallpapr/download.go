@@ -1,22 +1,33 @@
 package main
 
 import (
-	"fmt"
 	"os"
+	"os/user"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
+
+func getHomeDir() (string, error) {
+	usr, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return usr.HomeDir, nil
+}
 
 var downloadCmd = cobra.Command{
 	Use:     "download",
 	Short:   "downloads a random photo and saves it to the provided directory",
 	Example: "wallpapr download -o picture.jpeg -l ~/Downloads/wallpapers",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := download()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+		//create `location` if it doesn't exist
+		if !fileExists(location) {
+			createDir(location)
 		}
+
+		err := download()
+		exitOnError(err)
 	},
 }
 
@@ -27,6 +38,10 @@ var (
 
 func init() {
 	rootCmd.AddCommand(&downloadCmd)
+
+	homeDir, err := getHomeDir()
+	exitOnError(err)
+	defaultDlLocation := homeDir + string(os.PathSeparator) + strings.Join([]string{"Downloads", "wallpapers"}, string(os.PathSeparator))
 
 	/*
 		implement the feature of providing custom file names later
@@ -41,7 +56,6 @@ func download() error {
 	if err != nil {
 		return err
 	}
-
 	pic.Download(location)
 
 	return nil

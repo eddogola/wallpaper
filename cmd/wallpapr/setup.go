@@ -4,16 +4,15 @@ import (
 	"crypto/tls"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/eddogola/wallpapr"
 )
 
 /*
-sets up the Client and Downloader to be used in the requests
+sets up the Client to be used in the requests
 to the Unsplash API and picture downloading
 */
-
-var defaultDlLocation = "~/Downloads/wallpapers"
 var client = &wallpapr.Client{}
 
 func init() {
@@ -42,4 +41,16 @@ func readEnvFile(fileName string) ([]byte, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func createDir(filePath string) error {
+	return os.MkdirAll(filePath, 0770)
+}
+
+func fileExists(filePath string) bool {
+	if info, err := os.Stat(filePath); os.IsNotExist(err) || info.IsDir() {
+		return false
+	}
+
+	return true
 }
