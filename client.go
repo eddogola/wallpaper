@@ -18,7 +18,7 @@ type Client struct {
 
 // Config defines settings used in accessing the API
 type Config struct {
-	ItemsPerPage  int  // 10 - 30
+	ItemsPerPage  int    // 10 - 30
 	ContentFilter string // to give flexibility in filtering content further; default is low
 }
 
@@ -169,7 +169,7 @@ func (c *Client) GetRandomPhoto() (Photo, error) {
 	if err != nil {
 		return Photo{}, err
 	}
-	return pic, err	
+	return pic, err
 }
 
 // utility function to parse json data to desired object

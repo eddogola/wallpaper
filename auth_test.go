@@ -47,7 +47,7 @@ func TestUnsplashAuth(t *testing.T) {
 
 func checkError(err error, t *testing.T) {
 	t.Helper()
-	
+
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
