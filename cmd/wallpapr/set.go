@@ -9,6 +9,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var frequency time.Duration
+
 var setCmd = &cobra.Command{
 	Use:   "set",
 	Short: "Sets the desktop background",
@@ -69,8 +71,6 @@ func setWallpaper() {
 	exitOnError(err)
 	defaultDlLocation := homeDir + string(os.PathSeparator) + strings.Join([]string{"Downloads", "wallpapers"}, string(os.PathSeparator))
 
-	var frequency time.Duration
-
 	switch freq {
 	case "mins":
 		frequency = time.Minute * time.Duration(timeTaken)
@@ -78,11 +78,7 @@ func setWallpaper() {
 		frequency = time.Hour * time.Duration(timeTaken)
 	}
 
-	// download all gotten photos
-	for _, photo := range photos {
-		photo.Download(defaultDlLocation)
-	}
-
 	// set up slideshow
-	
+	slideshow := wallpapr.NewSlideshow(photos, frequency)
+	slideshow.Rotate(defaultDlLocation)
 }
