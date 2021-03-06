@@ -13,12 +13,9 @@ import (
 )
 
 var (
-	cfgFile        string
-	envFile        string
-	envFileDefault = ".env"
-)
-
-var client = &wallpapr.Client{}
+	cfgFile string
+	client = &wallpapr.Client{}
+) 
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -39,8 +36,6 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.wallpapr.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&envFile, "env", "e", envFileDefault, ".env file from which to load authentication keys.")
-	rootCmd.MarkPersistentFlagRequired("env")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -65,11 +60,9 @@ func initConfig() {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
 
-	data, err := readEnvFile(envFile)
-
-	auth, err := wallpapr.ReadAuthKeys(data)
+	auth, err := wallpapr.ReadAuthKeys()
 	if err != nil {
-		fmt.Println("error trying to read authentication keys from provided .env file or from environment variables")
+		fmt.Println("error trying to read authentication keys from environment variables")
 		os.Exit(1)
 	}
 
