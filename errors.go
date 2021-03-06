@@ -5,11 +5,7 @@ import (
 	"fmt"
 )
 
-var (
-	errKeysNotInEnvVars = errors.New("authentication keys not found in os env")
-	errKeysNotInEnvFile = errors.New("authentication keys not found in provided .env file")
-	errNoMatch = errors.New("no matches found in file")
-)
+var errKeysNotInEnvVars = errors.New("authentication keys not found in os env")
 
 type errUnexpectedStatusCode int
 
