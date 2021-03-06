@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/eddogola/wallpapr"
@@ -79,6 +80,9 @@ func startSlideshow() {
 	}
 
 	// set up slideshow
+	var wg sync.WaitGroup
 	slideshow := wallpapr.NewSlideshow(photos, frequency)
-	slideshow.Rotate(defaultDlLocation)
+	wg.Add(1)
+	slideshow.Rotate(&wg, defaultDlLocation)
+	wg.Wait()
 }

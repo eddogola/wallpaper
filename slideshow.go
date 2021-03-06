@@ -1,6 +1,7 @@
 package wallpapr
 
 import (
+	"sync"
 	"time"
 )
 
@@ -18,8 +19,10 @@ func NewSlideshow(photos []Photo, freq time.Duration) *Slideshow {
 }
 
 // Rotate changes photos after the given frequency
-func (s *Slideshow) Rotate(dlLocation string) {
-	go func() {
+func (s *Slideshow) Rotate(wg *sync.WaitGroup, dlLocation string) {
+	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
+
 		for _, photo := range s.Photos {
 			time.Sleep(s.Frequency)
 			fp, err := photo.Download(dlLocation)
@@ -31,5 +34,5 @@ func (s *Slideshow) Rotate(dlLocation string) {
 				continue
 			}
 		}
-	}()
+	}(wg)
 }
