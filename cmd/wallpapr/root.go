@@ -1,9 +1,12 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
+	"net/http"
 	"os"
 
+	"github.com/eddogola/wallpapr"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -15,6 +18,8 @@ var (
 	envFileDefault = ".env"
 )
 
+var client = &wallpapr.Client{}
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "wallpapr",
@@ -22,6 +27,9 @@ var rootCmd = &cobra.Command{
 	Long: `Wallpapr gets photos from Unsplash, based on your query - 
 a certain user's photos, a topic's photos, a search query to unsplash, 
 or the first page's photos.`,
+	PostRun: func(cmd *cobra.Command, args []string) {
+		cmd.Help()
+	},
 }
 
 func init() {
@@ -56,4 +64,26 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
+
+	data, err := readEnvFile(envFile)
+
+	auth, err := wallpapr.ReadAuthKeys(data)
+	if err != nil {
+		fmt.Println("error trying to read authentication keys from provided .env file or from environment variables")
+		os.Exit(1)
+	}
+
+	// set up http client
+	// not so great - disable client side certificate verification
+
+	cl := &http.Client{
+		Transport: &http.Transport{
+			// TLSClientConfig: &tls.Config{},
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
+	client = wallpapr.NewClient(auth)
+	client.HTTPClient = cl
 }

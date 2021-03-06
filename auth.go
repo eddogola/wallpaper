@@ -55,13 +55,18 @@ func parseEnvFileData(data []byte) (*UnsplashAuth, error) {
 	regex := regexp.MustCompile(`(?:\w+[^=])(?:=)([a-zA-Z0-9_-]+)`)
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
-		value := regex.FindStringSubmatch(line)[1]
-		if strings.Contains(line, "ACCESS") {
-			unsplashAccessKey = value
-		} else if strings.Contains(line, "SECRET") {
-			unsplashSecretKey = value
+		matches := regex.FindStringSubmatch(line)
+		if len(matches) > 1 {
+			value := matches[1]
+			if strings.Contains(line, "ACCESS") {
+				unsplashAccessKey = value
+			} else if strings.Contains(line, "SECRET") {
+				unsplashSecretKey = value
+			} else {
+				return nil, errKeysNotInEnvFile
+			}
 		} else {
-			return nil, errKeysNotInEnvFile
+			return nil, errNoMatch
 		}
 	}
 	return &UnsplashAuth{AccessKey: unsplashAccessKey, SecretKey: unsplashSecretKey}, nil
