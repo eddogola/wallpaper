@@ -8,6 +8,7 @@ import (
 var (
 	errKeysNotInEnvVars = errors.New("authentication keys not found in os env")
 	errKeysNotInEnvFile = errors.New("authentication keys not found in provided .env file")
+	errNoMatch = errors.New("no matches found in file")
 )
 
 type errUnexpectedStatusCode int
