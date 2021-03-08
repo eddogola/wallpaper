@@ -58,6 +58,6 @@ $ wallpapr slideshow --search food --freq mins --time 15 &
 
 Please feel free to PR, point issues out, and implement more features(like adding support for more platforms)
 
-## way forward
+## Way forward
 
 This CLI app is not yet mature. It can benefit from a lot of refactoring and test writing. Still learning :evergreen_tree:
