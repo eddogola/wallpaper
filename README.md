@@ -1,6 +1,7 @@
 # wallpapr
 
 Uses the unsplash API to get wallpapers from https://www.unsplash.com and set them as the desktop background.
+Works on only select operating systems (e.g. Ubuntu, Linux Mint), at least for now.
 
 ## Usage
 
@@ -28,23 +29,6 @@ Global Flags:
 
 ```bash
 Usage:
-  wallpapr set-random [flags]
-
-Examples:
-wallpapr set-random -o picture.jpeg -l ~/Downloads/wallpapers
-
-Flags:
-  -h, --help              help for set-random
-  -l, --location string   specify the directory where to save downloaded files. (default "/home/ogola/Downloads/wallpapers")
-
-Global Flags:
-      --config string   config file (default is $HOME/.wallpapr.yaml)
-  -e, --env string      .env file from which to load authentication keys. (default ".env")
-
-required flag(s) "env" not set
-ogola@ogola:~/code/go/src/github.com/eddogola/wallpapr$ wallpapr slideshow
-Error: required flag(s) "env" not set
-Usage:
   wallpapr slideshow [flags]
 
 Examples:
@@ -62,6 +46,12 @@ Flags:
 Global Flags:
       --config string   config file (default is $HOME/.wallpapr.yaml)
   -e, --env string      .env file from which to load authentication keys. (default ".env")
+```
+
+Add ```&``` to run in the background
+
+```bash
+$ wallpapr slideshow --search food --freq mins --time 15 &
 ```
 
 ## Contributing
