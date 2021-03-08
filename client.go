@@ -14,6 +14,7 @@ type Client struct {
 	Auth       *UnsplashAuth
 	HTTPClient *http.Client
 	Config     *Config
+	Logger     Logger
 }
 
 // Config defines settings used in accessing the API
