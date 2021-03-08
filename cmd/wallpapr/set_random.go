@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/user"
 	"strings"
@@ -66,7 +65,7 @@ func setRandom() error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%v set as wallpaper\n", fn)
+	client.Logger.Printf("%v set as wallpaper\n", fn)
 
 	return nil
 }

@@ -14,8 +14,8 @@ import (
 
 var (
 	cfgFile string
-	client = &wallpapr.Client{}
-) 
+	client  = &wallpapr.Client{}
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -62,7 +62,7 @@ func initConfig() {
 
 	auth, err := wallpapr.ReadAuthKeys()
 	if err != nil {
-		fmt.Println("error trying to read authentication keys from environment variables")
+		client.Logger.Println("error trying to read authentication keys from environment variables")
 		os.Exit(1)
 	}
 
