@@ -1,6 +1,9 @@
 # wallpapr
 
-Uses the unsplash API to get wallpapers from https://www.unsplash.com and set them as the desktop background.
+[![codecov](https://codecov.io/gh/eddogola/wallpapr/branch/main/graph/badge.svg?token=ZYPMWWSD1W)](https://codecov.io/gh/eddogola/wallpapr)
+[![Build Status](https://travis-ci.com/eddogola/wallpapr.svg?branch=main)](https://travis-ci.com/eddogola/wallpapr)
+
+Uses the unsplash API to get wallpapers from <https://www.unsplash.com> and set them as the desktop background.
 Works on only select operating systems (e.g. Ubuntu, Linux Mint), at least for now.
 
 ## Usage
@@ -51,7 +54,7 @@ Global Flags:
 Add ```&``` to run in the background
 
 ```bash
-$ wallpapr slideshow --search food --freq mins --time 15 &
+wallpapr slideshow --search food --freq mins --time 15 &
 ```
 
 ## Contributing
