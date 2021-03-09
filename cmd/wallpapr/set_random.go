@@ -24,7 +24,8 @@ var downloadSetCmd = cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		//create `location` if it doesn't exist
 		if !fileExists(location) {
-			createDir(location)
+			err := createDir(location)
+			exitOnError(err)
 		}
 
 		err := setRandom()

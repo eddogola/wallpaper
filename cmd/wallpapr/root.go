@@ -25,7 +25,8 @@ var rootCmd = &cobra.Command{
 a certain user's photos, a topic's photos, a search query to unsplash, 
 or the first page's photos.`,
 	PostRun: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := cmd.Help()
+		exitOnError(err)
 	},
 }
 
