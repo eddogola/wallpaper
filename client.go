@@ -130,6 +130,9 @@ func (c *Client) GetPhotosBySearchQuery(searchQuery string) ([]Photo, error) {
 	url.RawQuery = q.Encode()
 
 	data, err := c.getHTTPBodyBytes(context.Background(), url.String())
+	if err != nil {
+		return nil, err
+	}
 
 	var result SearchResult
 	err = parseJSON(data, &result)
