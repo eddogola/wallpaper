@@ -24,9 +24,9 @@ type Config struct {
 }
 
 // NewClient creates a new Client with provided authentication keys
-func NewClient(auth *UnsplashAuth) *Client {
+func NewClient(auth *UnsplashAuth, logger Logger) *Client {
 	config := &Config{ItemsPerPage: 30, ContentFilter: "low"}
-	return &Client{Auth: auth, Config: config}
+	return &Client{Auth: auth, Config: config, Logger: logger}
 }
 
 func (c *Client) getHTTP(ctx context.Context, link string) (*http.Response, error) {

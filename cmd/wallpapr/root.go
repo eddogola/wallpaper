@@ -78,6 +78,6 @@ func initConfig() {
 			},
 		},
 	}
-	client = wallpapr.NewClient(auth)
+	client = wallpapr.NewClient(auth, NewBuiltinLogger())
 	client.HTTPClient = cl
 }

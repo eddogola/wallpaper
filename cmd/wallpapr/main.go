@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	client.Logger = NewBuiltinLogger()
 	if err := rootCmd.Execute(); err != nil {
 		client.Logger.Println(err)
 		os.Exit(1)
