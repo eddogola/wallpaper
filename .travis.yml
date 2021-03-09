@@ -3,6 +3,9 @@ language: go
 go: 
  - tip
 
+env:
+  - CODECOV_TOKEN='d0d3cbd6-6271-44f2-9995-af3a75a11fe8'
+
 script:
   - go test -race -v -coverprofile=coverage.txt -covermodde=atomic # Run all the tests with the race detector enabled
   - go vet .
