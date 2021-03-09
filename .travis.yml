@@ -3,4 +3,10 @@ language: go
 go: 
  - tip
 
-script: go test -v
+script:
+  - go test -race -v -coverprofile=coverage.txt -covermodde=atomic # Run all the tests with the race detector enabled
+  - go vet .
+
+# push results to CodeCov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
