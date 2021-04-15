@@ -8,7 +8,7 @@ Works on Debian operating systems select operating systems (e.g. Ubuntu, Linux M
 In addition to having `go` installed to your system, you'll also need an Unsplash Developers Account
 for you to get an unsplash access key to be used for API calls under the hood.
 Proceed to [Unsplash Developers](https://unsplash.com/developers) and create an account.
-After creating an account, create an app. You'll get the app's access key towards the bottom of the 
+After creating an account, create an app. You'll get the app's access key towards the bottom of the
 created app's page.
 
 ## Installation
