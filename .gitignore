@@ -16,3 +16,4 @@
 
 # .env files
 *.env
+wallpapr_test.go

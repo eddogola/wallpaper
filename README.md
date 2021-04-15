@@ -1,7 +1,5 @@
 # wallpapr
 
-[![Build Status](https://travis-ci.com/eddogola/wallpapr.svg?branch=main)](https://travis-ci.com/eddogola/wallpapr)
-
 Gets random photos from [Unsplash](https://www.unsplash.com/) and sets them as the desktop background.
 Works on Debian operating systems select operating systems (e.g. Ubuntu, Linux Mint), at least for now.
 
