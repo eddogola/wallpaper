@@ -12,6 +12,10 @@ wallpapr is mostly used as a command line application, but can also be used as a
 ```bash
 $ go get -u github.com/eddogola/wallpapr/...
 go: finding github.com/eddogola/wallpapr latest
+...
+go: finding github.com/eddogola/unsplash-go latest
+go: finding golang.org/x/oauth2 latest
+go: finding golang.org/x/net latest
 ```
 
 ### set random wallpaper
