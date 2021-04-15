@@ -7,6 +7,13 @@ Works on Debian operating systems select operating systems (e.g. Ubuntu, Linux M
 
 wallpapr is mostly used as a command line application, but can also be used as a package.
 
+## Installation
+
+```bash
+$ go get -u github.com/eddogola/wallpapr/...
+go: finding github.com/eddogola/wallpapr latest
+```
+
 ### set random wallpaper
 
 ```bash
