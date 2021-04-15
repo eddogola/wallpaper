@@ -1,61 +1,34 @@
 # wallpapr
 
-[![codecov](https://codecov.io/gh/eddogola/wallpapr/branch/main/graph/badge.svg?token=ZYPMWWSD1W)](https://codecov.io/gh/eddogola/wallpapr)
 [![Build Status](https://travis-ci.com/eddogola/wallpapr.svg?branch=main)](https://travis-ci.com/eddogola/wallpapr)
 
-Uses the unsplash API to get wallpapers from <https://www.unsplash.com> and set them as the desktop background.
-Works on only select operating systems (e.g. Ubuntu, Linux Mint), at least for now.
+Gets random photos from [Unsplash](https://www.unsplash.com/) and sets them as the desktop background.
+Works on Debian operating systems select operating systems (e.g. Ubuntu, Linux Mint), at least for now.
 
 ## Usage
 
-wallpapr is mostly used as a command line application.
+wallpapr is mostly used as a command line application, but can also be used as a package.
 
 ### set random wallpaper
 
 ```bash
-Usage:
-  wallpapr set-random [flags]
+gets a random wallpaper from unsplash and sets it as the desktop background
 
-Examples:
-wallpapr set-random -o picture.jpeg -l ~/Downloads/wallpapers
+Usage:
+  Wallpapr set-random [flags]
 
 Flags:
-  -h, --help              help for set-random
-  -l, --location string   specify the directory where to save downloaded files. (default "/home/ogola/Downloads/wallpapers")
-
-Global Flags:
-      --config string   config file (default is $HOME/.wallpapr.yaml)
-  -e, --env string      .env file from which to load authentication keys. (default ".env")
+  -d, --destination string   the directory where downloaded photos will be saved (default "<HOME>/wallpapers/")
+  -h, --help                 help for set-random
+  
 ```
 
-### start slideshow
+## Dependencies
 
-```bash
-Usage:
-  wallpapr slideshow [flags]
-
-Examples:
-wallpapr slideshow --search food --freq mins --time 15
-
-Flags:
-  -a, --all               Get photos from a list of all Unsplash photos (default true)
-  -f, --freq hours        The frequency with which to change the wallpaper(mins, hours). Default is hours. (default "hours")
-  -h, --help              help for slideshow
-  -s, --search string     The search query whose results will provide wallpapers.
-      --time float        The time after which the wallpaper should change, in the given frequency. For example, --freq mins --time 10: the wallpaper will change every 10 minutes. (default 20)
-  -t, --topic string      The topic from which to get photos from unsplash.
-  -u, --username string   The username of an Unsplash user, from whom to get wallpapers.
-
-Global Flags:
-      --config string   config file (default is $HOME/.wallpapr.yaml)
-  -e, --env string      .env file from which to load authentication keys. (default ".env")
-```
-
-Add ```&``` to run in the background
-
-```bash
-wallpapr slideshow --search food --freq mins --time 15 &
-```
+- [Unsplash-go](https://www.github.com/eddogola/unsplash-go) - Unsplash API Client
+- [Grab](https://www.github.com/cavaliercoder/grab) - Download manager
+- [Readenv](https://www.github.com/eddogola/readenv) - For reading .env files
+- [Homedir](github.com/mitchellh/go-homedir) - For getting home directory
 
 ## Contributing
 
@@ -63,4 +36,4 @@ Please feel free to PR, point issues out, and implement more features(like addin
 
 ## Way forward
 
-This CLI app is not yet mature. It can benefit from a lot of refactoring and test writing. Still learning :evergreen_tree:
+This CLI app is not yet mature. It can benefit from a lot of refactoring and test writing. Still learning :palm_tree:
